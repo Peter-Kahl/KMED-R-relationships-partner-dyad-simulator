@@ -1,1 +1,1 @@
-# # KMED-R (Relationships): Partner Dyad Simulator
+# KMED-R (Relationships): Partner Dyad Simulator
