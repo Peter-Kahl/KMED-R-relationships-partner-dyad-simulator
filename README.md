@@ -164,8 +164,8 @@ Reveals the fiduciary plateau (stability) and clientelist basin (collapse) that 
 
 ## 9. License
 
-- Code is released under the MIT License (see LICENSE).
-- [Accompanying paper and documentation](https://github.com/Peter-Kahl/The-Newborns-First-Cry-as-Epistemic-Claim-and-Foundation-of-Psychological-Development) are released under Creative Commons BY-NC-ND 4.0.
+- Code is released under the MIT License (see [LICENSE](https://github.com/Peter-Kahl/KMED-R-relationships-partner-dyad-simulator/LICENSE)).
+- Accompanying paper and documentation are released under Creative Commons [BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/).
 
 You may freely use, adapt, and extend the code for research and educational purposes. Please cite appropriately.
 
