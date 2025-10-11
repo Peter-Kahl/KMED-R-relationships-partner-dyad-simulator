@@ -31,7 +31,7 @@ KMED-R thus provides a computational theatre for exploring epistemic clientelism
 
 ## 1. Documentation & Conceptual Background
 
-This repository contains the official Python implementation of KMED-R (Relationships): Partner Dyad Simulator, reproducing the simulations presented in the paper:
+This repository contains the official Python implementation of _KMED-R (Relationships): Partner Dyad Simulator_, reproducing the simulations presented in the paper:
 
 > Kahl, P. (2025). _Epistemic Clientelism in Intimate Relationships: The Kahl Model of Epistemic Dissonance (KMED) and the Foundations of Epistemic Psychology_. Lex et Ratio Ltd. https://github.com/Peter-Kahl/Epistemic-Clientelism-in-Intimate-Relationships
 
@@ -164,7 +164,7 @@ Reveals the fiduciary plateau (stability) and clientelist basin (collapse) that 
 
 ## 9. License
 
-- Code is released under the MIT License (see [LICENSE](https://github.com/Peter-Kahl/KMED-R-relationships-partner-dyad-simulator/LICENSE)).
+- Code is released under the MIT License (see LICENSE).
 - Accompanying paper and documentation are released under Creative Commons [BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/).
 
 You may freely use, adapt, and extend the code for research and educational purposes. Please cite appropriately.
