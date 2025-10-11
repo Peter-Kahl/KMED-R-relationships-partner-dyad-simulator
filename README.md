@@ -33,7 +33,7 @@ KMED-R thus provides a computational theatre for exploring epistemic clientelism
 
 This repository contains the official Python implementation of _KMED-R (Relationships): Partner Dyad Simulator_, reproducing the simulations presented in the paper:
 
-> Kahl, P. (2025). _Epistemic Clientelism in Intimate Relationships: The Kahl Model of Epistemic Dissonance (KMED) and the Foundations of Epistemic Psychology_. Lex et Ratio Ltd. https://github.com/Peter-Kahl/Epistemic-Clientelism-in-Intimate-Relationships
+> Kahl, P. (2025). _Epistemic Clientelism in Intimate Relationships: The Kahl Model of Epistemic Dissonance (KMED) and the Foundations of Epistemic Psychology_. Lex et Ratio Ltd. GitHub: https://github.com/Peter-Kahl/Epistemic-Clientelism-in-Intimate-Relationships DOI: https://doi.org/10.13140/RG.2.2.33790.45122
 
 Each simulation represents a stylised relational policy—fiduciary, inconsistent, avoidant, coercive, reparative, or mutual—modelled as a sequence of recognition (ρ), suppression (σ), fiduciary containment (ϕ), and repair (π) events.
 
@@ -175,8 +175,8 @@ You may freely use, adapt, and extend the code for research and educational purp
 
 Please cite the paper and optionally the repository release tag:
 
-> Kahl, P. (2025). _Epistemic Clientelism in Intimate Relationships: The Kahl Model of Epistemic Dissonance (KMED) and the Foundations of Epistemic Psychology_. Lex et Ratio Ltd. https://github.com/Peter-Kahl/Epistemic-Clientelism-in-Intimate-Relationships
+> Kahl, P. (2025). _Epistemic Clientelism in Intimate Relationships: The Kahl Model of Epistemic Dissonance (KMED) and the Foundations of Epistemic Psychology_. Lex et Ratio Ltd. GitHub: https://github.com/Peter-Kahl/Epistemic-Clientelism-in-Intimate-Relationships DOI: https://doi.org/10.13140/RG.2.2.33790.45122
 
 and
 
-> Kahl, P. (2025). KMED-R (Relationships): Partner Dyad Simulator (Version v1.0-preprint) [Computer software]. Lex et Ratio Ltd. GitHub. https://github.com/Peter-Kahl/KMED-R-relationships-partner-dyad-simulator/releases/tag/v1.0-preprint
+> Kahl, P. (2025). _KMED-R (Relationships): Partner Dyad Simulator_ (Version v1.0-preprint) [Computer software]. Lex et Ratio Ltd. GitHub: https://github.com/Peter-Kahl/KMED-R-relationships-partner-dyad-simulator/releases/tag/v1.0-preprint
