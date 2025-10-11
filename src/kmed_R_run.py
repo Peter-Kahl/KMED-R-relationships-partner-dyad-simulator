@@ -256,6 +256,14 @@ def step(state: State, params: Params, policy: str, t: int,
     return State(EA=EA, DT=DT, D=D, R=float(R), S=float(S),
                  dEA_prev=dEA, Rc=Rc_next, Sc=Sc_next)
 
+def parse_pair(s: str | None, cast=float):
+    if s is None:
+        return (None, None)
+    parts = [p.strip() for p in s.split(',')]
+    if len(parts) != 2:
+        raise ValueError(f'Expected two comma-separated values, got: {s}')
+    return tuple(None if p == '' else cast(p) for p in parts)
+
 # -------- Simulation ----------------------------------------------------------
 
 def run_sim(policy: str, T: int, seed: int, params: Params,
@@ -444,6 +452,64 @@ def plot_heatmaps(xs, ys, EA_end, DT_end, out_prefix: Path, meta: dict, x_label:
     plt.savefig(out_prefix.with_suffix(".heatmaps.png"), dpi=220)
     plt.close()
 
+def plot_bifurcation_states(series_A, meta_A, series_B, meta_B, out_path, smooth=False, smooth_k=3):
+    tA = np.arange(len(series_A['EA'])); tB = np.arange(len(series_B['EA']))
+    def sm(x):
+        if not smooth: return np.asarray(x)
+        k = smooth_k if smooth_k % 2 == 1 else smooth_k + 1
+        return movavg(np.asarray(x, dtype=float), k)
+
+    fig = plt.figure(figsize=(12.6, 7.4))
+    gs = fig.add_gridspec(2, 2, height_ratios=[3,1], wspace=0.28, hspace=0.22)
+
+    # Left (A)
+    axT = fig.add_subplot(gs[0,0]); axB = fig.add_subplot(gs[1,0], sharex=axT)
+    axT.plot(tA, sm(series_A['EA']), label='EA (autonomy)')
+    axT.plot(tA, sm(series_A['DT']), label='DT (tolerance)')
+    axT.set_title('Fiduciary path (ρ > σ, ϕ high)')
+    axT.set_ylabel('State (0–1)'); axT.legend(loc='lower left')
+    axB.plot(tA, sm(series_A['D']), label='D (dependence)')
+    axB.set_xlabel('Time'); axB.set_ylabel('Dependence (0–1)'); axB.legend(loc='upper left')
+    stamp_meta(axB, meta_A, loc='lower right', fontsize=8)
+
+    # Right (B)
+    axT = fig.add_subplot(gs[0,1]); axB = fig.add_subplot(gs[1,1], sharex=axT)
+    axT.plot(tB, sm(series_B['EA']), label='EA (autonomy)')
+    axT.plot(tB, sm(series_B['DT']), label='DT (tolerance)')
+    axT.set_title('Clientelist path (σ > ρ, ϕ low)')
+    axT.set_ylabel('State (0–1)'); axT.legend(loc='lower left')
+    axB.plot(tB, sm(series_B['D']), label='D (dependence)')
+    axB.set_xlabel('Time'); axB.set_ylabel('Dependence (0–1)'); axB.legend(loc='upper left')
+    stamp_meta(axB, meta_B, loc='lower right', fontsize=8)
+
+    fig.suptitle('Recognition–Suppression Bifurcation: Fiduciary vs Clientelist Trajectories', y=0.98)
+    plt.tight_layout(); plt.savefig(out_path, dpi=220); plt.close()
+
+def plot_bifurcation_events(series_A, meta_A, series_B, meta_B, out_path):
+    tA = np.arange(len(series_A['R'])); tB = np.arange(len(series_B['R']))
+    fig, (axA, axB) = plt.subplots(1, 2, figsize=(12.6, 4.8), sharey=True)
+    # A
+    axA.step(tA, series_A['R'], where='post', label='R (recognition)')
+    axA.step(tA, series_A['S'], where='post', label='S (suppression)')
+    axA2 = axA.twinx()
+    axA2.plot(tA, series_A['phi'], '--', alpha=0.7, label='ϕ (policy)')
+    axA2.plot(tA, series_A['pi'],  ':', alpha=0.7, label='π (policy)')
+    axA.set_title('Fiduciary path'); axA.set_xlabel('Time'); axA.set_ylabel('Event (0/1)')
+    lines1,labs1 = axA.get_legend_handles_labels(); lines2,labs2 = axA2.get_legend_handles_labels()
+    axA.legend(lines1+lines2, labs1+labs2, loc='upper right'); stamp_meta(axA, meta_A, loc='lower left', fontsize=8)
+    # B
+    axB.step(tB, series_B['R'], where='post', label='R (recognition)')
+    axB.step(tB, series_B['S'], where='post', label='S (suppression)')
+    axB2 = axB.twinx()
+    axB2.plot(tB, series_B['phi'], '--', alpha=0.7, label='ϕ (policy)')
+    axB2.plot(tB, series_B['pi'],  ':', alpha=0.7, label='π (policy)')
+    axB.set_title('Clientelist path'); axB.set_xlabel('Time')
+    lines1,labs1 = axB.get_legend_handles_labels(); lines2,labs2 = axB2.get_legend_handles_labels()
+    axB.legend(lines1+lines2, labs1+labs2, loc='upper right'); stamp_meta(axB, meta_B, loc='lower left', fontsize=8)
+
+    fig.suptitle('Bifurcation (events): R/S with ϕ & π profiles', y=0.98)
+    plt.tight_layout(); plt.savefig(out_path, dpi=220); plt.close()
+
 # -------- Metadata ------------------------------------------------------------
 
 def build_meta(script_name: str, policy: str, T: int, seed: int, params: Params,
@@ -505,6 +571,20 @@ def main():
     ap.add_argument("--smooth_k", type=int, default=3,
                     help="Window (odd) for moving-average when --smooth is set (default: 3).")
 
+    # --- figure generator (special composed figures) ---
+    ap.add_argument('--make_figure', choices=['bifurcation','bifurcation-events'],
+                default=None, help='Generate a composed figure (states or events).')
+
+    # Flexible bifurcation inputs (comma-separated)
+    ap.add_argument('--bif_policies', default='fiduciary-partner,coercive-silencing',
+                help='Two policies A,B to compare.')
+    ap.add_argument('--bif_seeds', default=None,
+                help='Two seeds A,B (e.g., "42,43"). Defaults to --seed for both.')
+    ap.add_argument('--bif_phi', default=None,
+                help='Two ϕ overrides A,B (e.g., "0.8,0.05"). Omit to use policy defaults.')
+    ap.add_argument('--bif_pi', default=None,
+                help='Two π overrides A,B (e.g., "0.4,0.05"). Omit to use policy defaults.')
+
     # raw
     ap.add_argument("--save_raw", action="store_true")
 
@@ -522,6 +602,51 @@ def main():
 
     phi_override = None if args.phi is None else clip01(args.phi)
     pi_override  = None if args.pi  is None else clip01(args.pi)
+
+    # ---------- composed figures ----------
+    if args.make_figure in ('bifurcation','bifurcation-events'):
+        polA, polB = [p.strip() for p in args.bif_policies.split(',')]
+        seedA, seedB = parse_pair(args.bif_seeds, cast=int)
+        phiA,  phiB  = parse_pair(args.bif_phi,  cast=float)
+        piA,   piB   = parse_pair(args.bif_pi,   cast=float)
+        if seedA is None: seedA = args.seed
+        if seedB is None: seedB = args.seed
+
+        # Run both panels
+        series_A = run_sim(polA, args.T, seedA, params, phiA, piA)
+        series_B = run_sim(polB, args.T, seedB, params, phiB, piB)
+
+        meta_A = build_meta('kmed_R_run.py', polA, args.T, seedA, params, phiA, piA)
+        meta_B = build_meta('kmed_R_run.py', polB, args.T, seedB, params, phiB, piB)
+
+        daystamp = datetime.now().strftime('%Y%m%d')
+        stem = f'KMED-R_BIF_{polA}_VS_{polB}_{daystamp}'
+
+        # Save JSON (combined)
+        figmeta = {
+            "figure": args.make_figure,
+            "timestamp": datetime.now().isoformat(timespec="seconds"),
+            "T": int(args.T),
+            "smooth": bool(args.smooth),
+            "smooth_k": int(args.smooth_k),
+            "panels": {"A": meta_A, "B": meta_B}
+        }
+        (OUTPUT_DIR / f'{stem}_runmeta.json').write_text(json.dumps(figmeta, indent=2))
+        (OUTPUT_DIR / f'{stem}_series.json').write_text(json.dumps({"A": series_A, "B": series_B}))
+
+        # Render PNG
+        out_png = OUTPUT_DIR / f'{stem}.png'
+        if args.make_figure == 'bifurcation':
+            plot_bifurcation_states(series_A, meta_A, series_B, meta_B, out_png,
+                                    smooth=bool(args.smooth), smooth_k=int(args.smooth_k))
+        else:
+            out_png = OUTPUT_DIR / f'{stem}_events.png'
+            plot_bifurcation_events(series_A, meta_A, series_B, meta_B, out_png)
+
+        print(f'[KMED-R] Wrote: {out_png}')
+        print(f'[KMED-R] JSON:  {OUTPUT_DIR / (stem + "_runmeta.json")}')
+        print(f'[KMED-R] JSON:  {OUTPUT_DIR / (stem + "_series.json")}')
+        return
 
     if args.policy != "sweep":
         series = run_sim(args.policy, args.T, args.seed, params, phi_override, pi_override)
