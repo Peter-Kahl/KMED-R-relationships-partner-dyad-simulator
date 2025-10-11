@@ -14,17 +14,18 @@ The model captures three interacting epistemic variables:
 
 KMED-R thus provides a computational theatre for exploring epistemic clientelism, resilience, and trust, bridging intimate relationships with broader institutional and organisational applications.
 
-## 📚 Table of Contents
+### 📚 Table of Contents
+
 1.	[Documentation & Conceptual Background](#1-documentation--conceptual-background)
 2.	[Requirements](#2-requirements)
 3.	[Installation](#3-installation)
 4.	[Quick Start](#4-quick-start)
 5.	[CLI Reference](#5-cli-reference)
-6.	[Scenario Cheat-Sheet (§7.3)]()
-7.	[Figure Glossary]()
-8.	[Tips for Clean Visuals]()
-9.	[License]()
-10.	[Citation]()
+6.	[Scenario Cheat-Sheet (§7.3)](#6-scenario-cheat-sheet--73)
+7.	[Figure Glossary](#7-figure-glossary)
+8.	[Tips for Clean Visuals](#8-tips-for-clean-visuals)
+9.	[License](#9-license)
+10.	[Citation](#10-citation)
 
 ---
 
