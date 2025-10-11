@@ -98,18 +98,18 @@ Outputs appear in the /outputs/ directory:
 
 | Flag	| Type / Range	| Default	|	Description	|
 | -------- | ------- | -------- | -------- |
-| --policy	one of fiduciary-partner, intermittent-reassurance, avoidant-withholding, coercive-silencing, therapeutic-repair, mutual-growth, sweep	fiduciary-partner	Selects relational regime |
-| --T	int ≥ 1	160	Number of time steps |
-| --seed	int	42	Random seed |
-| --noise	float ≥ 0	0.005	Gaussian noise on updates |
-| --phi	float [0,1] | None	None	Override fiduciary coefficient ϕ |
-| --pi	float [0,1] | None	None	Override repair probability π |
-| --tempo	slow|medium|fast	medium	Temporal rhythm and visual smoothness |
-| --smooth	flag	off	Apply small moving-average to EA/DT/D |
-| --smooth_k	odd int ≥ 3	3	Smoothing window |
-| --sweep_grid	odd int	0	Grid size for heatmap sweeps |
-| --sweep_y	suppression|phi|noise|initEA|initDT	suppression	Y-axis parameter in sweeps |
-| --save_raw	flag	off	Save raw .npy arrays |
+| --policy | one of fiduciary-partner, intermittent-reassurance, avoidant-withholding, coercive-silencing, therapeutic-repair, mutual-growth, sweep | fiduciary-partner | Selects relational regime |
+| --T | int ≥ 1 | 160 | Number of time steps |
+| --seed | int | 42 | Random seed |
+| --noise | float ≥ 0 | 0.005 | Gaussian noise on updates |
+| --phi | float [0,1]\|None | None | Override fiduciary coefficient ϕ |
+| --pi | float [0,1]\|None | None | Override repair probability π |
+| --tempo | slow|medium|fast | medium | Temporal rhythm and visual smoothness |
+| --smooth | flag | off | Apply small moving-average to EA/DT/D |
+| --smooth_k | odd int ≥ 3 | 3 | Smoothing window |
+| --sweep_grid | odd int | 0 | Grid size for heatmap sweeps |
+| --sweep_y | suppression\|phi\|noise\|initEA\|initDT | suppression | Y-axis parameter in sweeps |
+| --save_raw | flag | off | Save raw .npy arrays |
 
 
 ⸻
