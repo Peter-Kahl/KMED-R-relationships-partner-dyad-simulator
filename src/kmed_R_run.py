@@ -2,10 +2,14 @@
 # kmed_R_run.py
 # ------------------------------------------------------------------------------
 # KMED-R (Relationships) — Partner Dyad Simulator
-# Conceptual simulations of epistemic intimacy as dynamics over EA, DT, D
-# under stylised policies:
+# Conceptual simulations of epistemic intimacy as coupled dynamics over
+# Epistemic Autonomy (EA), Dissonance Tolerance (DT), and Dependence (D)
+# under stylised relational policies:
 #   fiduciary-partner | intermittent-reassurance | avoidant-withholding |
 #   coercive-silencing | therapeutic-repair | mutual-growth | sweep
+#
+# Also supports composite figure generation (e.g., fiduciary vs clientelist
+# bifurcation for Figure 8.1 in *Epistemic Clientelism in Intimate Relationships*).
 # ------------------------------------------------------------------------------
 # Author:          Peter Kahl
 # First published: London, 07 October 2025
@@ -25,41 +29,80 @@
 #   python src/kmed_R_run.py --policy mutual-growth --T 200 --tempo slow --smooth
 #   python src/kmed_R_run.py --policy sweep --sweep_grid 31 --sweep_y suppression --T 120
 #
-# Arguments:
-#   --policy     fiduciary-partner | intermittent-reassurance | avoidant-withholding |
-#                coercive-silencing | therapeutic-repair | mutual-growth | sweep
-#                (default: fiduciary-partner)
-#   --T          number of time steps (default: 160)
-#   --seed       RNG seed (default: 42)
-#   --noise      Gaussian noise std for state updates (default: 0.005)
+#   # Composite figures (Figure 8.1 etc.)
+#   python src/kmed_R_run.py --make_figure bifurcation --T 160 --tempo slow --smooth
+#   python src/kmed_R_run.py --make_figure bifurcation-events --T 160 --tempo slow
+# ------------------------------------------------------------------------------
 #
-# Core coefficients (cf. paper §7.2):
-#   --alpha      EA sensitivity to (ρ − σ)                    (default: 1.0)
-#   --beta       EA sensitivity to (ϕ − D)                    (default: 1.0)
-#   --gamma      DT sensitivity to (ϕ + ρ)                    (default: 1.0)
-#   --delta      DT erosion by σ                              (default: 1.0)
-#   --eps        D growth by (σ − ρ)                          (default: 1.0)
-#   --zeta       D reduction by ϕ                             (default: 1.0)
-#   --eta        momentum on ΔEA (path-dependency)            (default: 0.0)
+# Arguments
+# =========
 #
-# Policy overrides (optional):
-#   --phi        override fiduciary coefficient ϕ ∈ [0,1]     (default: None → policy-defined)
-#   --pi         override repair probability π ∈ [0,1]        (default: None → policy-defined)
+# --policy
+#     fiduciary-partner | intermittent-reassurance | avoidant-withholding |
+#     coercive-silencing | therapeutic-repair | mutual-growth | sweep
+#     (default: fiduciary-partner)
 #
-# Visual/tempo controls:
-#   --tempo      slow | medium | fast   (controls segment length; default: medium)
-#   --smooth     apply moving-average smoothing to EA/DT/D in plots
-#   --smooth_k   smoothing window (odd int; default: 3)
+# --T
+#     number of time steps (default: 160)
 #
-# Sweep (qualitative heatmaps of final EA×DT):
-#   --sweep_grid odd grid size (e.g., 21 or 31)               (default: 0 = off)
-#   --sweep_y    suppression | phi | noise | initEA | initDT  (default: suppression)
+# --seed
+#     RNG seed (default: 42)
 #
-# Outputs:
-#   - For policies:  states plot (...states.png), events plot (...events.png),
-#                    run metadata (..._runmeta.json), series (..._series.json).
-#   - For sweep:     heatmaps (...heatmaps.png) and run metadata.
-#   - Optional raw arrays (.npy) with --save_raw.
+# --noise
+#     Gaussian noise std for state updates (default: 0.005)
+#
+# Core coefficients (cf. paper §7.2)
+# ----------------------------------
+# --alpha     EA sensitivity to (ρ − σ)                    (default 1.0)
+# --beta      EA sensitivity to (ϕ − D)                    (default 1.0)
+# --gamma     DT sensitivity to (ϕ + ρ)                    (default 1.0)
+# --delta     DT erosion by σ                              (default 1.0)
+# --eps       D growth by (σ − ρ)                          (default 1.0)
+# --zeta      D reduction by ϕ                             (default 1.0)
+# --eta       momentum on ΔEA (path-dependency)            (default 0.0)
+#
+# Policy overrides (optional)
+# ---------------------------
+# --phi      override fiduciary coefficient ϕ ∈ [0, 1]      (default None → policy-defined)
+# --pi       override repair probability π ∈ [0, 1]        (default None → policy-defined)
+#
+# Visual / tempo controls
+# -----------------------
+# --tempo      slow | medium | fast  (controls segment length; default medium)
+# --smooth     apply moving-average smoothing to EA/DT/D in plots
+# --smooth_k   smoothing window (odd int; default 3)
+#
+# Sweep mode (qualitative heatmaps of final EA × DT)
+# --------------------------------------------------
+# --sweep_grid  odd grid size (e.g., 21 or 31)              (default 0 = off)
+# --sweep_y     suppression | phi | noise | initEA | initDT (default suppression)
+#
+# Composite / bifurcation figures
+# -------------------------------
+# --make_figure    bifurcation | bifurcation-events         (default None)
+# --bif_policies   policy A,B to compare (default fiduciary-partner,coercive-silencing)
+# --bif_seeds     two RNG seeds A,B (e.g. "42,43"; default --seed for both)
+# --bif_phi       two ϕ overrides A,B (e.g. "0.8,0.05"; default policy values)
+# --bif_pi        two π overrides A,B (e.g. "0.4,0.05"; default policy values)
+#
+# Outputs
+# -------
+# For single policy runs:
+#     - states plot (...states.png)
+#     - events plot (...events.png)
+#     - metadata (..._runmeta.json)
+#     - time-series (..._series.json)
+#     - optional raw arrays (.npy) with --save_raw
+#
+# For sweep mode:
+#     - heatmaps (...heatmaps.png)
+#     - run metadata (..._runmeta.json)
+#
+# For composed (bifurcation) figures:
+#     - combined PNG (...bifurcation.png or ..._events.png)
+#     - combined metadata (..._runmeta.json)
+#     - combined series (..._series.json)
+#
 # ------------------------------------------------------------------------------
 # MIT License (short form)
 # Permission is hereby granted, free of charge, to any person obtaining a copy
