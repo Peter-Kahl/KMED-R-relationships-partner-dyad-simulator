@@ -38,6 +38,8 @@ Each simulation represents a stylised relational policy—fiduciary, inconsisten
 
 These are not empirical data but qualitative epistemic archetypes, illustrating how ethical care modulates autonomy, tolerance, and dependence.
 
+---
+
 ## 2. Requirements
 
 - Python 3.9+
@@ -53,6 +55,8 @@ pip install -r requirements.txt
 pip install numpy matplotlib
 ```
 
+---
+
 ## 3. Installation
 
 Clone the repository:
@@ -61,6 +65,8 @@ Clone the repository:
 git clone https://github.com/Peter-Kahl/KMED-R-relationships-partner-dyad-simulator.git
 cd KMED-R-relationships-partner-dyad-simulator/src
 ```
+
+---
 
 ## 4. Quick Start
 
@@ -94,6 +100,8 @@ Outputs appear in the /outputs/ directory:
 - `*_runmeta.json` – parameters, metadata, and provenance
 - `*_heatmaps.png` – final EA/DT surfaces (sweep only)
 
+---
+
 ## 5. CLI Reference
 
 | Flag	| Type / Range	| Default	|	Description	|
@@ -111,23 +119,47 @@ Outputs appear in the /outputs/ directory:
 | --sweep_y | suppression\|phi\|noise\|initEA\|initDT | suppression | Y-axis parameter in sweeps |
 | --save_raw | flag | off | Save raw .npy arrays |
 
+---
 
-⸻
+## 6. Scenario Cheat-Sheet (§ 7.3)
 
-Scenario Cheat-Sheet (§ 7.3)
+| Section | Policy | Essence | CLI Example |
+| -------- | ------- | -------- | -------- |
+| § 7.3.1 | Fiduciary-Partner | Stable, trust-rich reciprocity; epistemic analogue of secure attachment | --policy fiduciary-partner --tempo slow --smooth |
+| § 7.3.2 | Intermittent-Reassurance | Oscillating warmth and withdrawal; autonomy and dependence alternate | --policy intermittent-reassurance --T 200 --tempo slow --smooth |
+| § 7.3.3 | Avoidant-Withholding | Muted, low-recognition environment; trust underdeveloped | --policy avoidant-withholding --phi 0.30 --pi 0.08 --smooth |
+| § 7.3.4 | Coercive-Silencing | Punitive suppression; dependence saturates, autonomy collapses | --policy coercive-silencing --phi 0.05 --pi 0.05 |
+| § 7.3.5 | Therapeutic-Repair | Rupture–repair dynamic; autonomy partially restored | --policy therapeutic-repair --phi 0.70 --pi 0.65 --smooth |
+| § 7.3.6 | Mutual-Growth | High recognition, low suppression, shared autonomy | --policy mutual-growth --tempo slow --smooth |
+| § 7.3.7 | Surface-Mapping | Recognition × suppression sweep; fiduciary plateau vs. clientelist basin | --policy sweep --sweep_grid 31 --sweep_y suppression --T 120 |
 
-Section	Policy	Essence	CLI Example
-§ 7.3.1	Fiduciary-Partner	Stable, trust-rich reciprocity; epistemic analogue of secure attachment	--policy fiduciary-partner --tempo slow --smooth
-§ 7.3.2	Intermittent-Reassurance	Oscillating warmth and withdrawal; autonomy and dependence alternate	--policy intermittent-reassurance --T 200 --tempo slow --smooth
-§ 7.3.3	Avoidant-Withholding	Muted, low-recognition environment; trust underdeveloped	--policy avoidant-withholding --phi 0.30 --pi 0.08 --smooth
-§ 7.3.4	Coercive-Silencing	Punitive suppression; dependence saturates, autonomy collapses	--policy coercive-silencing --phi 0.05 --pi 0.05
-§ 7.3.5	Therapeutic-Repair	Rupture–repair dynamic; autonomy partially restored	--policy therapeutic-repair --phi 0.70 --pi 0.65 --smooth
-§ 7.3.6	Mutual-Growth	High recognition, low suppression, shared autonomy	--policy mutual-growth --tempo slow --smooth
-§ 7.3.7	Surface-Mapping	Recognition × suppression sweep; fiduciary plateau vs. clientelist basin	--policy sweep --sweep_grid 31 --sweep_y suppression --T 120
+---
 
+## 7. Figure Glossary
 
+**States Plot (`*_states.png`)**\
+Stacked subplots for clarity:
+- _Top_: EA (autonomy) and DT (tolerance)
+- _Bottom_: D (dependence)\
+Optional smoothing (`--smooth`) applies a centred moving average with window `--smooth_k`.
 
+**Events Plot (`*_events.png`)**\
+Step series of R (recognition) and S (suppression) events, with dashed/dotted overlays for policy parameters ϕ and π.
 
+**Heatmaps (`*_heatmaps.png`)**\
+Generated in sweep mode. Final EA and DT values mapped over recognition × Y-parameter grid.\
+Reveals the fiduciary plateau (stability) and clientelist basin (collapse) that bound all regimes.
+
+---
+
+## 8. Tips for Clean Visuals
+
+- Use `--tempo` slow for publication-grade plots (minimal flicker).
+- Add `--smooth` for conceptual clarity; adjust `--smooth_k` (3–7) for gentler trends.
+- If R/S events appear too “busy,” lower `--noise` (e.g., 0.003) or lengthen `--T`.
+- For deterministic replication, fix `--seed`.
+
+---
 
 ## 9. License
 
@@ -136,6 +168,7 @@ Section	Policy	Essence	CLI Example
 
 You may freely use, adapt, and extend the code for research and educational purposes. Please cite appropriately.
 
+---
 
 ## 10. Citation
 
