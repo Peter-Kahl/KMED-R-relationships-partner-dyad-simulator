@@ -15,18 +15,20 @@ The model captures three interacting epistemic variables:
 KMED-R thus provides a computational theatre for exploring epistemic clientelism, resilience, and trust, bridging intimate relationships with broader institutional and organisational applications.
 
 ## 📚 Table of Contents
-1.	Documentation & Conceptual Background
-2.	Requirements
-3.	Installation
-4.	Quick Start
-5.	CLI Reference
-6.	Scenario Cheat-Sheet (§7.3)
-7.	Figure Glossary
-8.	Tips for Clean Visuals
-9.	License
-10.	Citation
+1.	[Documentation & Conceptual Background](#documentation--conceptual-background)
+2.	[Requirements]()
+3.	[Installation]()
+4.	[Quick Start]()
+5.	[CLI Reference]()
+6.	[Scenario Cheat-Sheet (§7.3)]()
+7.	[Figure Glossary]()
+8.	[Tips for Clean Visuals]()
+9.	[License]()
+10.	[Citation]()
 
-## Documentation & Conceptual Background
+---
+
+## 1. Documentation & Conceptual Background
 
 This repository contains the official Python implementation of KMED-R (Relationships): Partner Dyad Simulator, reproducing the simulations presented in the paper:
 
@@ -38,7 +40,7 @@ Each simulation represents a stylised relational policy—fiduciary, inconsisten
 
 These are not empirical data but qualitative epistemic archetypes, illustrating how ethical care modulates autonomy, tolerance, and dependence.
 
-## Requirements
+## 2. Requirements
 
 - Python 3.9+
 - `numpy`
