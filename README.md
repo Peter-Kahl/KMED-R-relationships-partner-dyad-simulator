@@ -8,18 +8,18 @@ KMED-R (Relationships) formalises epistemic dynamics within intimate partnership
 It extends the _Kahl Model of Epistemic Dissonance_ (KMED) from developmental to interpersonal psychology, showing how recognition, suppression, repair, and fiduciary quality shape epistemic life.
 
 The model captures three interacting epistemic variables:
-•	Epistemic Autonomy (EA) – persistence in signalling contradiction
-•	Dissonance Tolerance (DT) – capacity to withstand contradiction
-•	Dependence (D) – reliance on suppression versus recognition
+- **Epistemic Autonomy (EA)** – persistence in signalling contradiction
+- **Dissonance Tolerance (DT)** – capacity to withstand contradiction
+- **Dependence (D)** – reliance on suppression versus recognition
 
 KMED-R thus provides a computational theatre for exploring epistemic clientelism, resilience, and trust, bridging intimate relationships with broader institutional and organisational applications.
 
 ## 📚 Table of Contents
-1.	[Documentation & Conceptual Background](#documentation--conceptual-background)
-2.	[Requirements]()
-3.	[Installation]()
-4.	[Quick Start]()
-5.	[CLI Reference]()
+1.	[Documentation & Conceptual Background](#1-documentation--conceptual-background)
+2.	[Requirements](#2-requirements)
+3.	[Installation](#3-installation)
+4.	[Quick Start](#4-quick-start)
+5.	[CLI Reference](#5-cli-reference)
 6.	[Scenario Cheat-Sheet (§7.3)]()
 7.	[Figure Glossary]()
 8.	[Tips for Clean Visuals]()
@@ -32,9 +32,7 @@ KMED-R thus provides a computational theatre for exploring epistemic clientelism
 
 This repository contains the official Python implementation of KMED-R (Relationships): Partner Dyad Simulator, reproducing the simulations presented in the paper:
 
-Kahl, P. (2025). Epistemic Clientelism in Intimate Relationships: The Kahl Model of Epistemic Dissonance (KMED) and the Foundations of Epistemic Psychology.
-Lex et Ratio Ltd, London.
-GitHub Repository
+> Kahl, P. (2025). _Epistemic Clientelism in Intimate Relationships: The Kahl Model of Epistemic Dissonance (KMED) and the Foundations of Epistemic Psychology_. Lex et Ratio Ltd. https://github.com/Peter-Kahl/Epistemic-Clientelism-in-Intimate-Relationships
 
 Each simulation represents a stylised relational policy—fiduciary, inconsistent, avoidant, coercive, reparative, or mutual—modelled as a sequence of recognition (ρ), suppression (σ), fiduciary containment (ϕ), and repair (π) events.
 
@@ -51,11 +49,11 @@ Install dependencies via:
 ```bash
 # install dependencies
 pip install -r requirements.txt
-# or
+# or manually:
 pip install numpy matplotlib
 ```
 
-## Installation
+## 3. Installation
 
 Clone the repository:
 
@@ -64,7 +62,40 @@ git clone https://github.com/Peter-Kahl/KMED-R-relationships-partner-dyad-simula
 cd KMED-R-relationships-partner-dyad-simulator/src
 ```
 
-## License
+## 4. Quick Start
+
+```bash
+# Fiduciary baseline (secure, trust-rich)
+python kmed_R_run.py --policy fiduciary-partner --T 160 --tempo slow --smooth
+
+# Intermittent reassurance (oscillating warmth/withdrawal)
+python kmed_R_run.py --policy intermittent-reassurance --T 200 --tempo slow --smooth
+
+# Avoidant withholding (cool distance)
+python kmed_R_run.py --policy avoidant-withholding --T 200 --tempo slow --phi 0.30 --pi 0.08 --smooth
+
+# Coercive silencing (punitive suppression)
+python kmed_R_run.py --policy coercive-silencing --T 160 --tempo slow --phi 0.05 --pi 0.05
+
+# Therapeutic repair (rupture → restoration)
+python kmed_R_run.py --policy therapeutic-repair --T 200 --tempo slow --phi 0.70 --pi 0.65 --smooth
+
+# Mutual growth (reciprocal autonomy)
+python kmed_R_run.py --policy mutual-growth --T 200 --tempo slow --smooth
+
+# Surface mapping (EA×DT heatmaps)
+python kmed_R_run.py --policy sweep --sweep_grid 31 --sweep_y suppression --T 120
+```
+
+Outputs appear in the /outputs/ directory:
+- `*_states.png` – stacked EA/DT and D trajectories
+- `*_events.png` – recognition/suppression events and policy levels (ϕ, π)
+- `*_series.json` – time-series data
+- `*_runmeta.json` – parameters, metadata, and provenance
+- `*_heatmaps.png` – final EA/DT surfaces (sweep only)
+
+
+## 9. License
 
 - Code is released under the MIT License (see LICENSE).
 - [Accompanying paper and documentation](https://github.com/Peter-Kahl/The-Newborns-First-Cry-as-Epistemic-Claim-and-Foundation-of-Psychological-Development) are released under Creative Commons BY-NC-ND 4.0.
@@ -72,12 +103,12 @@ cd KMED-R-relationships-partner-dyad-simulator/src
 You may freely use, adapt, and extend the code for research and educational purposes. Please cite appropriately.
 
 
-## Citation
+## 10. Citation
 
 Please cite the paper and optionally the repository release tag:
 
-- Kahl, P. (2025). _The newborn’s first cry as epistemic claim and foundation of psychological development: Attachment, autonomy, and resilience_. Lex et Ratio Ltd. GitHub: https://github.com/Peter-Kahl/The-Newborns-First-Cry-as-Epistemic-Claim-and-Foundation-of-Psychological-Development
+> Kahl, P. (2025). _Epistemic Clientelism in Intimate Relationships: The Kahl Model of Epistemic Dissonance (KMED) and the Foundations of Epistemic Psychology_. Lex et Ratio Ltd. https://github.com/Peter-Kahl/Epistemic-Clientelism-in-Intimate-Relationships
 
 and
 
-- Kahl, P. (2025). KMED-I (Infancy): Cry–Response Dyad Simulator (Version v1.0-preprint) [Computer software]. Lex et Ratio Ltd. GitHub. https://github.com/Peter-Kahl/KMED-R-relationships-partner-dyad-simulator/releases/tag/v1.0-preprint
+> Kahl, P. (2025). KMED-R (Relationships): Partner Dyad Simulator (Version v1.0-preprint) [Computer software]. Lex et Ratio Ltd. GitHub. https://github.com/Peter-Kahl/KMED-R-relationships-partner-dyad-simulator/releases/tag/v1.0-preprint
