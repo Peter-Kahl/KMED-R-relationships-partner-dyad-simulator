@@ -1,6 +1,6 @@
 # KMED-R (Relationships): Partner Dyad Simulator
 
-[![Generic badge](https://img.shields.io/badge/ORCID-0009.0003.1616.4843-green.svg)](https://orcid.org/0009-0003-1616-4843)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17332839.svg)](https://doi.org/10.5281/zenodo.17332839) [![Generic badge](https://img.shields.io/badge/ORCID-0009.0003.1616.4843-green.svg)](https://orcid.org/0009-0003-1616-4843)
 
 ![Two hands holding a delicate origami bird above a small flame of a candle. The bird is fragile yet emerging from fire.](https://github.com/Peter-Kahl/KMED-R-relationships-partner-dyad-simulator/blob/main/origami.jpg?raw=true)
 
