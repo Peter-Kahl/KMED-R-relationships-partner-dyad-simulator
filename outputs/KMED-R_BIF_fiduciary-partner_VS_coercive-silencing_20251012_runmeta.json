@@ -1,0 +1,45 @@
+{
+  "figure": "bifurcation",
+  "timestamp": "2025-10-12T08:37:14",
+  "T": 160,
+  "smooth": true,
+  "smooth_k": 3,
+  "panels": {
+    "A": {
+      "script": "kmed_R_run.py",
+      "version": "0.9.9",
+      "timestamp": "2025-10-12T08:37:14",
+      "user": "peter",
+      "python": "3.11.13",
+      "policy": "fiduciary-partner",
+      "T": 160,
+      "seed": 42,
+      "alpha": 1.0,
+      "beta": 1.0,
+      "gamma": 1.0,
+      "delta": 1.0,
+      "eps": 1.0,
+      "zeta": 1.0,
+      "eta": 0.0,
+      "noise": 0.005
+    },
+    "B": {
+      "script": "kmed_R_run.py",
+      "version": "0.9.9",
+      "timestamp": "2025-10-12T08:37:14",
+      "user": "peter",
+      "python": "3.11.13",
+      "policy": "coercive-silencing",
+      "T": 160,
+      "seed": 42,
+      "alpha": 1.0,
+      "beta": 1.0,
+      "gamma": 1.0,
+      "delta": 1.0,
+      "eps": 1.0,
+      "zeta": 1.0,
+      "eta": 0.0,
+      "noise": 0.005
+    }
+  }
+}
