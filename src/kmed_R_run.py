@@ -8,19 +8,19 @@
 #   fiduciary-partner | intermittent-reassurance | avoidant-withholding |
 #   coercive-silencing | therapeutic-repair | mutual-growth | sweep
 #
-# Also supports composite figure generation (e.g., fiduciary vs clientelist
-# bifurcation for Figure 8.1 in *Epistemic Clientelism in Intimate Relationships*).
+# Also supports composed figure generation used in the manuscript
+# (e.g., fiduciary vs. clientelist bifurcation for Figure 8.1).
 # ------------------------------------------------------------------------------
 # Author:          Peter Kahl
 # First published: London, 07 October 2025
-# Version:         0.9.9 (2025-10-11)
+# Version:         0.9.9 (2025-10-12)
 # License:         MIT (see below)
 # Repository:      https://github.com/Peter-Kahl/KMED-R-relationships-partner-dyad-simulator
-#
-# © 2025 Peter Kahl / Lex et Ratio Ltd.
+# © 2025 Lex et Ratio Ltd.
 # ------------------------------------------------------------------------------
 #
-# Quick start (examples):
+# Quick start (examples)
+# ----------------------
 #   python src/kmed_R_run.py --policy fiduciary-partner --T 160 --tempo slow --smooth
 #   python src/kmed_R_run.py --policy intermittent-reassurance --T 200 --tempo slow --seed 7 --smooth
 #   python src/kmed_R_run.py --policy avoidant-withholding --T 200 --tempo slow --noise 0.003 --phi 0.30 --pi 0.08 --smooth
@@ -29,82 +29,69 @@
 #   python src/kmed_R_run.py --policy mutual-growth --T 200 --tempo slow --smooth
 #   python src/kmed_R_run.py --policy sweep --sweep_grid 31 --sweep_y suppression --T 120
 #
-#   # Composite figures (Figure 8.1 etc.)
+#   # Composed figures (manuscript figures)
 #   python src/kmed_R_run.py --make_figure bifurcation --T 160 --tempo slow --smooth
 #   python src/kmed_R_run.py --make_figure bifurcation-events --T 160 --tempo slow
-# ------------------------------------------------------------------------------
+#   python src/kmed_R_run.py --make_figure silencing --T 160 --tempo slow --smooth
 #
 # Arguments
 # =========
-#
 # --policy
 #     fiduciary-partner | intermittent-reassurance | avoidant-withholding |
 #     coercive-silencing | therapeutic-repair | mutual-growth | sweep
 #     (default: fiduciary-partner)
 #
-# --T
-#     number of time steps (default: 160)
-#
-# --seed
-#     RNG seed (default: 42)
-#
-# --noise
-#     Gaussian noise std for state updates (default: 0.005)
+# --T                 Number of time steps (default: 160)
+# --seed              RNG seed (default: 42)
+# --noise             Gaussian noise std for state updates (default: 0.005)
 #
 # Core coefficients (cf. paper §7.2)
 # ----------------------------------
-# --alpha     EA sensitivity to (ρ − σ)                    (default 1.0)
-# --beta      EA sensitivity to (ϕ − D)                    (default 1.0)
-# --gamma     DT sensitivity to (ϕ + ρ)                    (default 1.0)
-# --delta     DT erosion by σ                              (default 1.0)
-# --eps       D growth by (σ − ρ)                          (default 1.0)
-# --zeta      D reduction by ϕ                             (default 1.0)
-# --eta       momentum on ΔEA (path-dependency)            (default 0.0)
+# --alpha     EA sensitivity to (ρ − σ)                    (default: 1.0)
+# --beta      EA sensitivity to (ϕ − D)                    (default: 1.0)
+# --gamma     DT sensitivity to (ϕ + ρ)                    (default: 1.0)
+# --delta     DT erosion by σ                              (default: 1.0)
+# --eps       D growth by (σ − ρ)                          (default: 1.0)
+# --zeta      D reduction by ϕ                             (default: 1.0)
+# --eta       Momentum on ΔEA (path-dependency)            (default: 0.0)
 #
 # Policy overrides (optional)
 # ---------------------------
-# --phi      override fiduciary coefficient ϕ ∈ [0, 1]      (default None → policy-defined)
-# --pi       override repair probability π ∈ [0, 1]        (default None → policy-defined)
+# --phi       Override fiduciary coefficient ϕ ∈ [0, 1]    (default: policy-defined)
+# --pi        Override repair probability π ∈ [0, 1]       (default: policy-defined)
 #
 # Visual / tempo controls
 # -----------------------
-# --tempo      slow | medium | fast  (controls segment length; default medium)
-# --smooth     apply moving-average smoothing to EA/DT/D in plots
-# --smooth_k   smoothing window (odd int; default 3)
+# --tempo     slow | medium | fast  (controls segment length; default: medium)
+# --smooth    Apply moving-average smoothing to EA/DT/D in plots
+# --smooth_k  Smoothing window (odd int; default: 3)
 #
 # Sweep mode (qualitative heatmaps of final EA × DT)
 # --------------------------------------------------
-# --sweep_grid  odd grid size (e.g., 21 or 31)              (default 0 = off)
-# --sweep_y     suppression | phi | noise | initEA | initDT (default suppression)
+# --sweep_grid  Odd grid size (e.g., 21 or 31)             (default: 0 = off)
+# --sweep_y     suppression | phi | noise | initEA | initDT (default: suppression)
 #
-# Composite / bifurcation figures
-# -------------------------------
-# --make_figure    bifurcation | bifurcation-events         (default None)
-# --bif_policies   policy A,B to compare (default fiduciary-partner,coercive-silencing)
-# --bif_seeds     two RNG seeds A,B (e.g. "42,43"; default --seed for both)
-# --bif_phi       two ϕ overrides A,B (e.g. "0.8,0.05"; default policy values)
-# --bif_pi        two π overrides A,B (e.g. "0.4,0.05"; default policy values)
+# Composed / bifurcation figures
+# ------------------------------
+# --make_figure   bifurcation | bifurcation-events | silencing   (default: None)
+# --bif_policies  Two policies A,B (e.g., "fiduciary-partner,coercive-silencing")
+# --bif_seeds     Two RNG seeds A,B (e.g., "42,43"; defaults to --seed for both)
+# --bif_phi       Two ϕ overrides A,B (e.g., "0.8,0.05"; default: policy values)
+# --bif_pi        Two π overrides A,B (e.g., "0.4,0.05"; default: policy values)
 #
 # Outputs
 # -------
-# For single policy runs:
-#     - states plot (...states.png)
-#     - events plot (...events.png)
-#     - metadata (..._runmeta.json)
-#     - time-series (..._series.json)
-#     - optional raw arrays (.npy) with --save_raw
+# Single-policy runs:
+#   • ...states.png  • ...events.png  • ..._runmeta.json  • ..._series.json
+#   • optional raw arrays (.npy) with --save_raw
 #
-# For sweep mode:
-#     - heatmaps (...heatmaps.png)
-#     - run metadata (..._runmeta.json)
+# Sweep mode:
+#   • ...heatmaps.png  • ..._runmeta.json
 #
-# For composed (bifurcation) figures:
-#     - combined PNG (...bifurcation.png or ..._events.png)
-#     - combined metadata (..._runmeta.json)
-#     - combined series (..._series.json)
-#
+# Composed figures:
+#   • ...png  • ..._runmeta.json  • ..._series.json
 # ------------------------------------------------------------------------------
-# MIT License (short form)
+# MIT License
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the “Software”), to deal
 # in the Software without restriction, including without limitation the rights
@@ -120,13 +107,13 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-# Full license text: https://opensource.org/licenses/MIT
 # ------------------------------------------------------------------------------
 
 from __future__ import annotations
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from datetime import datetime
+from typing import Callable, Optional, Tuple
 import argparse, json, platform, getpass
 import numpy as np
 import matplotlib.pyplot as plt
@@ -299,13 +286,16 @@ def step(state: State, params: Params, policy: str, t: int,
     return State(EA=EA, DT=DT, D=D, R=float(R), S=float(S),
                  dEA_prev=dEA, Rc=Rc_next, Sc=Sc_next)
 
-def parse_pair(s: str | None, cast=float):
+
+def parse_pair(s: Optional[str], cast: Callable = float) -> Tuple[Optional[float], Optional[float]]:
     if s is None:
         return (None, None)
     parts = [p.strip() for p in s.split(',')]
     if len(parts) != 2:
-        raise ValueError(f'Expected two comma-separated values, got: {s}')
-    return tuple(None if p == '' else cast(p) for p in parts)
+        raise ValueError(f'Expected two comma-separated values, got: "{s}"')
+    def _cast_or_none(p):
+        return None if p == '' else cast(p)
+    return (_cast_or_none(parts[0]), _cast_or_none(parts[1]))
 
 # -------- Simulation ----------------------------------------------------------
 
@@ -498,12 +488,12 @@ def plot_heatmaps(xs, ys, EA_end, DT_end, out_prefix: Path, meta: dict, x_label:
 def plot_bifurcation_states(series_A, meta_A, series_B, meta_B, out_path, smooth=False, smooth_k=3):
     tA = np.arange(len(series_A['EA'])); tB = np.arange(len(series_B['EA']))
     def sm(x):
-        if not smooth: return np.asarray(x)
+        if not smooth: return np.asarray(x, dtype=float)
         k = smooth_k if smooth_k % 2 == 1 else smooth_k + 1
         return movavg(np.asarray(x, dtype=float), k)
 
-    fig = plt.figure(figsize=(12.6, 7.4))
-    gs = fig.add_gridspec(2, 2, height_ratios=[3,1], wspace=0.28, hspace=0.22)
+    fig = plt.figure(figsize=(12.6, 7.4), constrained_layout=True)
+    gs = fig.add_gridspec(2, 2, height_ratios=[3,1])
 
     # Left (A)
     axT = fig.add_subplot(gs[0,0]); axB = fig.add_subplot(gs[1,0], sharex=axT)
@@ -526,12 +516,17 @@ def plot_bifurcation_states(series_A, meta_A, series_B, meta_B, out_path, smooth
     stamp_meta(axB, meta_B, loc='lower right', fontsize=8)
 
     fig.suptitle('Recognition–Suppression Bifurcation: Fiduciary vs Clientelist Trajectories', y=0.98)
-    plt.tight_layout(); plt.savefig(out_path, dpi=220); plt.close()
+    fig.tight_layout(rect=(0, 0, 1, 0.96))
+    fig.savefig(out_path, dpi=220)
+    plt.close(fig)
 
 def plot_bifurcation_events(series_A, meta_A, series_B, meta_B, out_path):
     tA = np.arange(len(series_A['R'])); tB = np.arange(len(series_B['R']))
-    fig, (axA, axB) = plt.subplots(1, 2, figsize=(12.6, 4.8), sharey=True)
+    fig = plt.figure(figsize=(12.6, 4.8), constrained_layout=True)
+    gs = fig.add_gridspec(1, 2)
+
     # A
+    axA = fig.add_subplot(gs[0,0])
     axA.step(tA, series_A['R'], where='post', label='R (recognition)')
     axA.step(tA, series_A['S'], where='post', label='S (suppression)')
     axA2 = axA.twinx()
@@ -539,8 +534,11 @@ def plot_bifurcation_events(series_A, meta_A, series_B, meta_B, out_path):
     axA2.plot(tA, series_A['pi'],  ':', alpha=0.7, label='π (policy)')
     axA.set_title('Fiduciary path'); axA.set_xlabel('Time'); axA.set_ylabel('Event (0/1)')
     lines1,labs1 = axA.get_legend_handles_labels(); lines2,labs2 = axA2.get_legend_handles_labels()
-    axA.legend(lines1+lines2, labs1+labs2, loc='upper right'); stamp_meta(axA, meta_A, loc='lower left', fontsize=8)
+    axA.legend(lines1+lines2, labs1+labs2, loc='upper right')
+    stamp_meta(axA, meta_A, loc='lower left', fontsize=8)
+
     # B
+    axB = fig.add_subplot(gs[0,1], sharey=axA)
     axB.step(tB, series_B['R'], where='post', label='R (recognition)')
     axB.step(tB, series_B['S'], where='post', label='S (suppression)')
     axB2 = axB.twinx()
@@ -548,10 +546,109 @@ def plot_bifurcation_events(series_A, meta_A, series_B, meta_B, out_path):
     axB2.plot(tB, series_B['pi'],  ':', alpha=0.7, label='π (policy)')
     axB.set_title('Clientelist path'); axB.set_xlabel('Time')
     lines1,labs1 = axB.get_legend_handles_labels(); lines2,labs2 = axB2.get_legend_handles_labels()
-    axB.legend(lines1+lines2, labs1+labs2, loc='upper right'); stamp_meta(axB, meta_B, loc='lower left', fontsize=8)
+    axB.legend(lines1+lines2, labs1+labs2, loc='upper right')
+    stamp_meta(axB, meta_B, loc='lower left', fontsize=8)
 
     fig.suptitle('Bifurcation (events): R/S with ϕ & π profiles', y=0.98)
-    plt.tight_layout(); plt.savefig(out_path, dpi=220); plt.close()
+    fig.tight_layout(rect=(0, 0, 1, 0.96))
+    fig.savefig(out_path, dpi=220)
+    plt.close(fig)
+
+def _ewma(x, alpha=0.10):
+    """Exponentially-weighted moving average for [0/1] sequences."""
+    y = np.zeros_like(x, dtype=float)
+    if len(x) == 0:
+        return y
+    y[0] = x[0]
+    for i in range(1, len(x)):
+        y[i] = alpha * x[i] + (1 - alpha) * y[i-1]
+    return np.clip(y, 0.0, 1.0)
+
+def make_figure_silencing(T: int, seed: int, params: Params,
+                          phi: float | None, pi: float | None,
+                          smooth: bool, smooth_k: int, outdir: Path):
+    """
+    Figure 8.3 — The Trajectory of Epistemic Silencing
+    Policy: coercive-silencing (σ ≫ ρ, low ϕ, low π).
+    Outputs PNG and JSON sidecars into outputs/.
+    """
+    # --- Run policy ---
+    series = run_sim(
+        policy="coercive-silencing", T=T, seed=seed, params=params,
+        phi=phi, pi=pi
+    )
+
+    # --- Compute Silencing Index S_idx (EWMA over S) ---
+    S_evt  = np.array(series["S"], dtype=float)            # 0/1 suppressions
+    S_idx  = _ewma(S_evt, alpha=0.10)                      # slow, cumulative feel
+
+    # --- Optional smoothing for state curves (not for S_idx) ---
+    EA = np.array(series["EA"]); DT = np.array(series["DT"]); D = np.array(series["D"])
+    if smooth:
+        k = smooth_k if smooth_k % 2 == 1 else smooth_k + 1
+        EA = movavg(EA, k); DT = movavg(DT, k); D = movavg(D, k)
+
+    # --- Plot (stacked: EA/DT | D | S_idx) ---
+    t  = np.arange(len(EA))
+    fig, axes = plt.subplots(3, 1, figsize=(10.8, 8.6), sharex=True,
+                             gridspec_kw={"height_ratios": [3, 1.6, 1]})
+
+    ax0, ax1, ax2 = axes
+
+    # Top: EA & DT
+    ax0.plot(t, EA, label="EA (autonomy)")
+    ax0.plot(t, DT, label="DT (tolerance)")
+    ax0.set_ylabel("State (0–1)")
+    ax0.set_title("KMED-R: The Trajectory of Epistemic Silencing (coercive-silencing)")
+    ax0.legend(loc="lower left")
+
+    # Mid: D
+    ax1.plot(t, D, label="D (dependence)")
+    ax1.set_ylabel("Dependence (0–1)")
+    ax1.legend(loc="upper left")
+
+    # Bottom: Silencing Index (EWMA of S events)
+    ax2.plot(t, S_idx, linestyle="--", label="S (Silencing Index)")
+    ax2.set_xlabel("Time")
+    ax2.set_ylabel("S (0–1)")
+    ax2.legend(loc="upper left")
+
+    # Meta stamp
+    out_prefix = outdir / f"KMED-R_FIG_8_3_silencing_{datetime.now().strftime('%Y%m%d')}"
+    stamp_meta(ax2, {
+        "version": __version__,
+        "timestamp": datetime.now().isoformat(timespec="seconds"),
+        "policy": "coercive-silencing",
+        "T": int(T), "seed": int(seed),
+        "alpha": params.alpha, "beta": params.beta, "gamma": params.gamma, "delta": params.delta,
+        "eps": params.eps, "zeta": params.zeta, "eta": params.eta, "noise": params.noise,
+        "phi": phi if phi is not None else "policy", "pi": pi if pi is not None else "policy"
+    }, loc="lower right", fontsize=8)
+
+    plt.tight_layout()
+    plt.savefig(out_prefix.with_suffix(".png"), dpi=220)
+    plt.close()
+
+    # --- JSON sidecars (series + runmeta, incl. S_idx) ---
+    meta = {
+        "figure": "8.3",
+        "figure_name": "The Trajectory of Epistemic Silencing",
+        "script": "kmed_R_run.py",
+        "version": __version__,
+        "timestamp": datetime.now().isoformat(timespec="seconds"),
+        "policy": "coercive-silencing",
+        "T": int(T), "seed": int(seed),
+        "alpha": params.alpha, "beta": params.beta, "gamma": params.gamma, "delta": params.delta,
+        "eps": params.eps, "zeta": params.zeta, "eta": params.eta, "noise": params.noise,
+        "phi": phi, "pi": pi,
+        "notes": "Silencing Index computed as EWMA over suppression events (alpha=0.10)."
+    }
+    # attach S_idx for reproducibility
+    series_out = {k: list(v) for k, v in series.items()}
+    series_out["S_index"] = list(S_idx)
+
+    (out_prefix.with_name(out_prefix.name + "_runmeta.json")).write_text(json.dumps(meta, indent=2))
+    (out_prefix.with_name(out_prefix.name + "_series.json")).write_text(json.dumps(series_out))
 
 # -------- Metadata ------------------------------------------------------------
 
@@ -576,12 +673,12 @@ def build_meta(script_name: str, policy: str, T: int, seed: int, params: Params,
 
 def main():
     ap = argparse.ArgumentParser(
-        description="KMED-R (Relationships) partner-dyad simulator — conceptual scaffolding"
+                description="KMED-R (Relationships) partner-dyad simulator — conceptual scaffolding"
     )
     ap.add_argument("--policy",
-        choices=["fiduciary-partner","intermittent-reassurance","avoidant-withholding",
+                choices=["fiduciary-partner","intermittent-reassurance","avoidant-withholding",
                  "coercive-silencing","therapeutic-repair","mutual-growth","sweep"],
-        default="fiduciary-partner")
+                default="fiduciary-partner")
     ap.add_argument("--T",     type=int,   default=160)
     ap.add_argument("--seed",  type=int,   default=42)
     ap.add_argument("--noise", type=float, default=0.005)
@@ -602,20 +699,20 @@ def main():
     # sweep
     ap.add_argument("--sweep_grid", type=int, default=0)
     ap.add_argument("--sweep_y",
-        choices=["suppression","phi","noise","initEA","initDT"],
-        default="suppression",
-        help="Which y-axis to sweep (default: suppression).")
+                choices=["suppression","phi","noise","initEA","initDT"],
+                default="suppression",
+                help="Which y-axis to sweep (default: suppression).")
 
     # tempo/visuals
     ap.add_argument("--tempo", choices=["slow","medium","fast"], default="medium",
-                    help="Controls segment length and visual rhythm (slow=cleanest).")
+                help="Controls segment length and visual rhythm (slow=cleanest).")
     ap.add_argument("--smooth", action="store_true",
-                    help="Apply a small moving-average to EA/DT/D before plotting.")
+                help="Apply a small moving-average to EA/DT/D before plotting.")
     ap.add_argument("--smooth_k", type=int, default=3,
-                    help="Window (odd) for moving-average when --smooth is set (default: 3).")
+                help="Window (odd) for moving-average when --smooth is set (default: 3).")
 
     # --- figure generator (special composed figures) ---
-    ap.add_argument('--make_figure', choices=['bifurcation','bifurcation-events'],
+    ap.add_argument('--make_figure', choices=['bifurcation','bifurcation-events','silencing'],
                 default=None, help='Generate a composed figure (states or events).')
 
     # Flexible bifurcation inputs (comma-separated)
@@ -643,11 +740,26 @@ def main():
         eps=args.eps, zeta=args.zeta, eta=args.eta, noise=args.noise
     )
 
+    # Normalise overrides into [0,1]
     phi_override = None if args.phi is None else clip01(args.phi)
     pi_override  = None if args.pi  is None else clip01(args.pi)
 
-    # ---------- composed figures ----------
-    if args.make_figure in ('bifurcation','bifurcation-events'):
+    # ---------------- Composed figures ----------------
+    if args.make_figure in ('bifurcation','bifurcation-events','silencing'):
+        daystamp = datetime.now().strftime("%Y%m%d")
+
+        if args.make_figure == "silencing":
+            make_figure_silencing(
+                T=args.T, seed=args.seed, params=params,
+                phi=phi_override, pi=pi_override,
+                smooth=bool(args.smooth), smooth_k=int(args.smooth_k),
+                outdir=OUTPUT_DIR
+            )
+            # make_figure_silencing prints filenames itself; keep consistent:
+            print(f'[KMED-R] Figure "silencing" written (see outputs/).')
+            return
+
+        # Bifurcation variants:
         polA, polB = [p.strip() for p in args.bif_policies.split(',')]
         seedA, seedB = parse_pair(args.bif_seeds, cast=int)
         phiA,  phiB  = parse_pair(args.bif_phi,  cast=float)
@@ -655,31 +767,24 @@ def main():
         if seedA is None: seedA = args.seed
         if seedB is None: seedB = args.seed
 
-        # Run both panels
         series_A = run_sim(polA, args.T, seedA, params, phiA, piA)
         series_B = run_sim(polB, args.T, seedB, params, phiB, piB)
-
         meta_A = build_meta('kmed_R_run.py', polA, args.T, seedA, params, phiA, piA)
         meta_B = build_meta('kmed_R_run.py', polB, args.T, seedB, params, phiB, piB)
 
-        daystamp = datetime.now().strftime('%Y%m%d')
         stem = f'KMED-R_BIF_{polA}_VS_{polB}_{daystamp}'
-
-        # Save JSON (combined)
-        figmeta = {
+        (OUTPUT_DIR / f'{stem}_runmeta.json').write_text(json.dumps({
             "figure": args.make_figure,
             "timestamp": datetime.now().isoformat(timespec="seconds"),
             "T": int(args.T),
             "smooth": bool(args.smooth),
             "smooth_k": int(args.smooth_k),
             "panels": {"A": meta_A, "B": meta_B}
-        }
-        (OUTPUT_DIR / f'{stem}_runmeta.json').write_text(json.dumps(figmeta, indent=2))
+        }, indent=2))
         (OUTPUT_DIR / f'{stem}_series.json').write_text(json.dumps({"A": series_A, "B": series_B}))
 
-        # Render PNG
-        out_png = OUTPUT_DIR / f'{stem}.png'
         if args.make_figure == 'bifurcation':
+            out_png = OUTPUT_DIR / f'{stem}.png'
             plot_bifurcation_states(series_A, meta_A, series_B, meta_B, out_png,
                                     smooth=bool(args.smooth), smooth_k=int(args.smooth_k))
         else:
@@ -690,13 +795,15 @@ def main():
         print(f'[KMED-R] JSON:  {OUTPUT_DIR / (stem + "_runmeta.json")}')
         print(f'[KMED-R] JSON:  {OUTPUT_DIR / (stem + "_series.json")}')
         return
+    # --------------------------------------------------
 
+    # ---------------- Standard policy runs ----------------
     if args.policy != "sweep":
         series = run_sim(args.policy, args.T, args.seed, params, phi_override, pi_override)
         meta = build_meta("kmed_R_run.py", args.policy, args.T, args.seed, params, phi_override, pi_override)
-
         daystamp = datetime.now().strftime("%Y%m%d")
         prefix = OUTPUT_DIR / f"KMED-R_{args.policy}_{daystamp}"
+
         (OUTPUT_DIR / f"KMED-R_{args.policy}_{daystamp}_runmeta.json").write_text(json.dumps(meta, indent=2))
         (OUTPUT_DIR / f"KMED-R_{args.policy}_{daystamp}_series.json").write_text(json.dumps(series))
 
@@ -704,20 +811,28 @@ def main():
             for k, v in series.items():
                 np.save(OUTPUT_DIR / f"KMED-R_{args.policy}_{daystamp}_{k}.npy", np.array(v))
 
-        # include smoothing flags for plot stamp
         plot_series(series, meta | {"smooth": bool(args.smooth), "smooth_k": int(args.smooth_k)}, prefix)
 
-    else:
-        grid = int(args.sweep_grid) if args.sweep_grid else 21
-        xs, ys, EA_end, DT_end, xlab, ylab = sweep_heatmap(args.T, args.seed, params, grid=grid, mode=args.sweep_y)
-        meta = build_meta("kmed_R_run.py", "sweep", args.T, args.seed, params, phi_override, pi_override)
-        daystamp = datetime.now().strftime("%Y%m%d")
-        prefix = OUTPUT_DIR / f"KMED-R_SWEEP_{daystamp}_{args.sweep_y}"
-        (OUTPUT_DIR / f"KMED-R_SWEEP_{daystamp}_{args.sweep_y}_runmeta.json").write_text(json.dumps(meta, indent=2))
-        if args.save_raw:
-            np.save(OUTPUT_DIR / f"KMED-R_SWEEP_{daystamp}_{args.sweep_y}_EA_end.npy", EA_end)
-            np.save(OUTPUT_DIR / f"KMED-R_SWEEP_{daystamp}_{args.sweep_y}_DT_end.npy", DT_end)
-        plot_heatmaps(xs, ys, EA_end, DT_end, prefix, meta, xlab, ylab, title_suffix=args.sweep_y)
+        print(f'[KMED-R] Wrote: {prefix.with_suffix(".states.png")}')
+        print(f'[KMED-R] Wrote: {prefix.with_suffix(".events.png")}')
+        print(f'[KMED-R] JSON:  {OUTPUT_DIR / f"KMED-R_{args.policy}_{daystamp}_runmeta.json"}')
+        print(f'[KMED-R] JSON:  {OUTPUT_DIR / f"KMED-R_{args.policy}_{daystamp}_series.json"}')
+        return
+
+    # ---------------- Sweep runs ----------------
+    grid = int(args.sweep_grid) if args.sweep_grid else 21
+    xs, ys, EA_end, DT_end, xlab, ylab = sweep_heatmap(args.T, args.seed, params, grid=grid, mode=args.sweep_y)
+    meta = build_meta("kmed_R_run.py", "sweep", args.T, args.seed, params, phi_override, pi_override)
+    daystamp = datetime.now().strftime("%Y%m%d")
+    prefix = OUTPUT_DIR / f"KMED-R_SWEEP_{daystamp}_{args.sweep_y}"
+    (OUTPUT_DIR / f"KMED-R_SWEEP_{daystamp}_{args.sweep_y}_runmeta.json").write_text(json.dumps(meta, indent=2))
+    if args.save_raw:
+        np.save(OUTPUT_DIR / f"KMED-R_SWEEP_{daystamp}_{args.sweep_y}_EA_end.npy", EA_end)
+        np.save(OUTPUT_DIR / f"KMED-R_SWEEP_{daystamp}_{args.sweep_y}_DT_end.npy", DT_end)
+    plot_heatmaps(xs, ys, EA_end, DT_end, prefix, meta, xlab, ylab, title_suffix=args.sweep_y)
+
+    print(f'[KMED-R] Wrote: {prefix.with_suffix(".heatmaps.png")}')
+    print(f'[KMED-R] JSON:  {OUTPUT_DIR / f"KMED-R_SWEEP_{daystamp}_{args.sweep_y}_runmeta.json"}')
 
 if __name__ == "__main__":
     main()
