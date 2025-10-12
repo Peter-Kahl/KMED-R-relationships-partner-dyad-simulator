@@ -103,7 +103,8 @@ python kmed_R_run.py --make_figure bifurcation-events --T 160 --tempo slow
 python kmed_R_run.py --make_figure silencing --T 160 --tempo slow --smooth
 ```
 
-Outputs appear in the /outputs/ directory:
+Outputs appear in the `/outputs/` directory:
+
 - `*_states.png` – stacked EA/DT and D trajectories
 - `*_events.png` – recognition/suppression events and policy levels (ϕ, π)
 - `*_series.json` – time-series data
@@ -120,7 +121,7 @@ Outputs appear in the /outputs/ directory:
 
 | Flag	| Type / Range	| Default	|	Description	|
 | -------- | ------- | -------- | -------- |
-| `--policy` | `fiduciary-partner \| intermittent-reassurance \| avoidant-withholding \| coercive-silencing \| therapeutic-repair \| mutual-growth \| sweep` | fiduciary-partner | Selects relational policy or simulation mode |
+| `--policy` | fiduciary-partner \| intermittent-reassurance \| avoidant-withholding \| coercive-silencing \| therapeutic-repair \| mutual-growth \| sweep | fiduciary-partner | Selects relational policy or simulation mode |
 | `--T` | int ≥ 1 | 160 | Number of simulation time steps |
 | `--seed` | int | 42 | Random seed for reproducibility |
 | `--noise` | float ≥ 0 | 0.005 | Gaussian noise applied to state updates |
@@ -148,7 +149,7 @@ Outputs appear in the /outputs/ directory:
 
 ---
 
-## 6. Scenario Cheat-Sheet (§ 7.3)
+## 6. Scenario Cheat-Sheet
 
 | Section | Policy | Essence | CLI Example |
 | -------- | ------- | -------- | -------- |
@@ -159,6 +160,8 @@ Outputs appear in the /outputs/ directory:
 | § 7.3.5 | Therapeutic-Repair | Rupture–repair dynamic; autonomy partially restored | `--policy therapeutic-repair --phi 0.70 --pi 0.65 --smooth` |
 | § 7.3.6 | Mutual-Growth | High recognition, low suppression, shared autonomy | `--policy mutual-growth --tempo slow --smooth` |
 | § 7.3.7 | Surface-Mapping | Recognition × suppression sweep; fiduciary plateau vs. clientelist basin | `--policy sweep --sweep_grid 31 --sweep_y suppression --T 120` |
+| § 8.1 | Bifurcation (Figure 8.1 — Recognition–Suppression Bifurcation) | Simulation output corresponding to the vignette in § 8.1. The same dissonance event (δ) yields two outcomes: a fiduciary path (ρ > σ, ϕ high) enabling epistemic repair (EA ↑, DT ↑, D ↓) and a clientelist path (σ > ρ, ϕ low) leading to epistemic collapse (EA ↓, DT ↓, D ↑). | `python kmed_R_run.py --make_figure bifurcation --T 160 --tempo slow --smooth` |
+| § 8.4 | Epistemic Silencing (Figure 8.3 — The Trajectory of Epistemic Silencing) | Modelled simulation under the coercive-silencing policy (σ ≫ ρ, low ϕ, π). Over time, EA and DT collapse toward 0 as D → 1. The Silencing Index (S) tracks the cumulative futility of expression — the system stabilises not through reconciliation but through epistemic paralysis. | `python kmed_R_run.py --make_figure silencing --T 160 --tempo slow --smooth` |
 
 ---
 
