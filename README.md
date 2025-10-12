@@ -92,6 +92,15 @@ python kmed_R_run.py --policy mutual-growth --T 200 --tempo slow --smooth
 
 # Surface mapping (EA×DT heatmaps)
 python kmed_R_run.py --policy sweep --sweep_grid 31 --sweep_y suppression --T 120
+
+# Fiduciary vs Clientelist trajectories (Figure 8.1)
+python kmed_R_run.py --make_figure bifurcation --T 160 --tempo slow --smooth
+
+# Recognition/Suppression event traces
+python kmed_R_run.py --make_figure bifurcation-events --T 160 --tempo slow
+
+# Epistemic Silencing trajectory (Figure 8.3)
+python kmed_R_run.py --make_figure silencing --T 160 --tempo slow --smooth
 ```
 
 Outputs appear in the /outputs/ directory:
@@ -100,6 +109,10 @@ Outputs appear in the /outputs/ directory:
 - `*_series.json` – time-series data
 - `*_runmeta.json` – parameters, metadata, and provenance
 - `*_heatmaps.png` – final EA/DT surfaces (sweep only)
+- `*_bifurcation.png` - composite comparison of fiduciary vs. clientelist trajectories (Figure 8.1 in Epistemic Clientelism in Intimate Relationships).
+- `*_bifurcation_events.png` - side-by-side R/S event panels for both paths, illustrating recognition–suppression asymmetry.
+- `*_silencing.png` - time-series plot of EA, DT, and D under coercive-silencing policy, including the computed Silencing Index (S) overlay (Figure 8.3).
+- `*.npy` - optional raw numerical arrays for analytical reuse when invoked with `--save_raw`.
 
 ---
 
@@ -107,18 +120,31 @@ Outputs appear in the /outputs/ directory:
 
 | Flag	| Type / Range	| Default	|	Description	|
 | -------- | ------- | -------- | -------- |
-| `--policy` | one of fiduciary-partner, intermittent-reassurance, avoidant-withholding, coercive-silencing, therapeutic-repair, mutual-growth, sweep | fiduciary-partner | Selects relational regime |
-| `--T` | int ≥ 1 | 160 | Number of time steps |
-| `--seed` | int | 42 | Random seed |
-| `--noise` | float ≥ 0 | 0.005 | Gaussian noise on updates |
-| `--phi` | float [0,1]\|None | None | Override fiduciary coefficient ϕ |
-| `--pi` | float [0,1]\|None | None | Override repair probability π |
-| `--tempo` | slow|medium|fast | medium | Temporal rhythm and visual smoothness |
-| `--smooth` | flag | off | Apply small moving-average to EA/DT/D |
-| `--smooth_k` | odd int ≥ 3 | 3 | Smoothing window |
-| `--sweep_grid` | odd int | 0 | Grid size for heatmap sweeps |
-| `--sweep_y` | suppression\|phi\|noise\|initEA\|initDT | suppression | Y-axis parameter in sweeps |
-| `--save_raw` | flag | off | Save raw .npy arrays |
+| `--policy` | `fiduciary-partner \| intermittent-reassurance \| avoidant-withholding \| coercive-silencing \| therapeutic-repair \| mutual-growth \| sweep` | fiduciary-partner | Selects relational policy or simulation mode |
+| `--T` | int ≥ 1 | 160 | Number of simulation time steps |
+| `--seed` | int | 42 | Random seed for reproducibility |
+| `--noise` | float ≥ 0 | 0.005 | Gaussian noise applied to state updates |
+| `--alpha` | float | 1.0 | EA sensitivity to (ρ − σ) |
+| `--beta` | float | 1.0 | EA sensitivity to (ϕ − D) |
+| `--gamma` | float | 1.0 | DT sensitivity to (ϕ + ρ) |
+| `--delta` | float | 1.0 | DT erosion by σ |
+| `--eps` | float | 1.0 | D growth by (σ − ρ) |
+| `--zeta` | float | 1.0 | D reduction by ϕ |
+| `--eta` | float | 0.0 | Momentum on ΔEA (path-dependence) |
+| `--phi` | float [0,1] or None | None | Override fiduciary coefficient ϕ (policy-defined if None) |
+| `--pi` | float [0,1] or None | None | Override repair probability π (policy-defined if None) |
+| `--tempo` | slow \| medium \| fast | medium | Controls segment length and visual rhythm |
+| `--smooth` | flag | off | Apply moving-average smoothing to EA/DT/D |
+| `--smooth_k` | odd int ≥ 3 | 3 | Window size for smoothing (when `--smooth` is set) |
+| `--sweep_grid` | odd int | 0 | Grid size for parameter-sweep heatmaps (e.g. 21, 31) |
+| `--sweep_y` | suppression \| phi \| noise \| initEA \| initDT | suppression | Y-axis variable for sweep mode |
+| `--make_figure` | bifurcation \| bifurcation-events \| silencing | None | Generates composite figures (Figures 8.1, 8.3) |
+| `--bif_policies` | str pair A,B | fiduciary-partner,coercive-silencing | Two policies to compare in bifurcation plots |
+| `--bif_seeds` | int pair A,B | None (defaults to `--seed`) | Two random seeds for comparison runs |
+| `--bif_phi` | float pair [0,1],[0,1] | None | Optional ϕ overrides for A,B |
+| `--bif_pi` | float pair [0,1],[0,1] | None | Optional π overrides for A,B |
+| `--save_raw` | flag | off | Save raw numerical arrays (.npy) for analysis
+
 
 ---
 
